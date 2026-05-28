@@ -1,0 +1,103 @@
+<div class="pokedex-header">
+  <div class="header-contenido">
+    <div class="pokebola-logo">
+      <div class="pb-top"></div>
+      <div class="pb-medio"><div class="pb-boton"></div></div>
+      <div class="pb-bottom"></div>
+    </div>
+    <h1>Pokédex</h1>
+    <p class="subtitulo">Generación I — 151 Pokémon</p>
+  </div>
+
+  <div class="filtros-wrap">
+    <div class="buscador-wrap">
+      <span class="icono-buscar">🔍</span>
+      <input
+        #txtBuscar
+        class="buscador"
+        type="text"
+        placeholder="Buscar por nombre o número..."
+        [ngModel]="busqueda()"
+        (ngModelChange)="busqueda.set($event)"
+        (keyup.enter)="guardarEnHistorial(txtBuscar.value)"
+      />
+    </div>
+
+    <div class="filtros-row">
+      <select class="filtro-select"
+        [ngModel]="tipoSeleccionado()"
+        (ngModelChange)="tipoSeleccionado.set($event)">
+        <option value="">Todos los tipos</option>
+        @for (tipo of TIPOS; track tipo) {
+          <option [value]="tipo">{{ tipo }}</option>
+        }
+      </select>
+
+      <select class="filtro-select"
+        [ngModel]="evolucionSeleccionada()"
+        (ngModelChange)="evolucionSeleccionada.set($event)">
+        <option value="">Todas las etapas</option>
+        <option value="1">1ª Evolución</option>
+        <option value="2">2ª Evolución</option>
+        <option value="3">3ª Evolución</option>
+      </select>
+
+      @if (busqueda() || tipoSeleccionado() || evolucionSeleccionada()) {
+        <button class="btn-limpiar" (click)="limpiarFiltros()">✕ Limpiar</button>
+      }
+    </div>
+
+    @if (historial().length > 0) {
+  <div class="historial-container-pro">
+    <div class="historial-header-pro">
+      <span class="historial-titulo">
+        <span class="dot-parpadeo"></span> BÚSQUEDAS RECIENTES
+      </span>
+      <button class="btn-borrar-pro" (click)="limpiarHistorial()">
+        <span class="icono-X">✕</span> BORRAR HISTORIAL
+      </button>
+    </div>
+    
+    <div class="historial-tags-pro">
+      @for (item of historial(); track item) {
+        <button class="historial-tag-pro" (click)="busqueda.set(item)">
+          <span class="tag-lupa">🔍</span>
+          <span class="tag-texto">{{ item }}</span>
+        </button>
+      }
+    </div>
+  </div>
+}
+
+    <p class="resultado-count">
+      {{ pokemonsFiltrados().length }} Pokémon encontrados
+    </p>
+  </div>
+</div>
+
+@if (cargando()) {
+  <p class="cargando">Cargando Pokémon...</p>
+} @else if (pokemonsFiltrados().length === 0) {
+  <div class="no-resultados">
+    <p>No se encontró ningún Pokémon!!! </p>
+    <button class="btn-limpiar" (click)="limpiarFiltros()">Limpiar filtros</button>
+  </div>
+} @else {
+  <div class="lista-grid">
+    @for (pokemon of pokemonsFiltrados(); track pokemon.id) {
+      <a [routerLink]="['/pokemon', pokemon.nombre]" class="card-pokemon"
+         [style.--color-tipo]="getColorTipo(pokemon.tipo)">
+        <div class="card-fondo"></div>
+        <div class="card-numero">#{{ pokemon.id }}</div>
+        <div class="card-imagen-wrap">
+          <img [src]="pokemon.imagen" [alt]="pokemon.nombre" class="card-imagen" />
+        </div>
+        <div class="card-info">
+             <span class="card-nombre" [style.background-color]="getColorTipo(pokemon.tipo)">
+                {{ pokemon.nombre }}
+            </span>
+        </div>
+      </a>
+    }
+  </div>
+}

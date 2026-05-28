@@ -1,0 +1,88 @@
+@if (cargando()) {
+  <div class="pantalla-carga">
+    <div class="pokebola">
+      <div class="pokebola-top"></div>
+      <div class="pokebola-medio">
+        <div class="pokebola-boton"></div>
+      </div>
+      <div class="pokebola-bottom"></div>
+    </div>
+    <p class="texto-carga">Cargando...</p>
+  </div>
+}
+@else if (pokemon()) {
+
+  <div class="detalle-wrapper" 
+     [style.border-top]="'6px solid ' + getColorTipo(pokemon().types[0].type.name)"
+     [style.--color-tipo]="getColorTipo(pokemon().types[0].type.name)">
+    <a routerLink="/" class="btn-regresar">← Regresar</a>
+
+    <div class="detalle-header">
+      <img [src]="imagenActiva()" [alt]="pokemon().name" class="imagen-principal" />
+      <div class="info-principal">
+        <span class="numero">#{{ pokemon().id }}</span>
+        <h1 class="nombre">{{ pokemon().name }}
+            <button class="btn-sonido" (click)="reproducirSonido()" title="Escuchar sonido">🔊</button>
+        </h1>
+
+        <div class="tipos">
+          @for (t of pokemon().types; track t.type.name) {
+            <span class="badge-tipo" [style.background-color]="getColorTipo(t.type.name)">
+              {{ t.type.name }}
+            </span>
+          }
+        </div>
+
+        <p class="descripcion">{{ getDescripcion() }}</p>
+
+        <div class="medidas">
+          <span>Altura: {{ pokemon().height / 10 }} m</span>
+          <span>Peso: {{ pokemon().weight / 10 }} kg</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Galería -->
+    <div class="galeria">
+      @for (img of getGaleria(); track img) {
+        <img [src]="img" (click)="setImagenActiva(img)"
+             [class.activa]="imagenActiva() === img" class="thumb" />
+      }
+    </div>
+
+    <!-- Estadísticas -->
+    <div class="seccion">
+      <h2>Estadísticas</h2>
+      <div class="stats">
+        @for (stat of pokemon().stats; track stat.stat.name) {
+          <div class="stat-row">
+            <span class="stat-nombre">{{ stat.stat.name }}</span>
+            <div class="stat-barra-bg">
+              <div class="stat-barra"
+                   [style.width.%]="(stat.base_stat / 255) * 100"
+                   [style.background-color]="getColorTipo(pokemon().types[0].type.name)">
+              </div>
+            </div>
+            <span class="stat-valor">{{ stat.base_stat }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Evoluciones -->
+    @if (evoluciones().length > 1) {
+      <div class="seccion">
+        <h2>Evoluciones</h2>
+        <div class="evoluciones">
+          @for (evo of evoluciones(); track evo.id) {
+            <a [routerLink]="['/pokemon', evo.nombre]" class="evo-card">
+              <img [src]="evo.imagen" [alt]="evo.nombre" />
+              <span>{{ evo.nombre }}</span>
+            </a>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+}

@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;800&family=Titan+One&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── HEADER ── */
+.pokedex-header {
+  background: linear-gradient(135deg, #e3350d 0%, #c0392b 100%);
+  padding: 30px 20px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pokedex-header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+}
+
+.header-contenido {
+  position: relative;
+  z-index: 1;
+}
+
+.pokedex-header h1 {
+  font-family: 'Press Start 2P', monospace;
+  color: white;
+  font-size: 1.8rem;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  margin: 10px 0 6px;
+}
+
+.subtitulo {
+  font-family: 'Nunito', sans-serif;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+}
+
+/* Pokébola decorativa en header */
+.pokebola-logo {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 8px;
+  position: relative;
+  animation: girar-logo 4s linear infinite;
+}
+.pb-top {
+  width: 48px; height: 24px;
+  background: white;
+  border-radius: 24px 24px 0 0;
+  border: 3px solid rgba(0,0,0,0.3);
+  border-bottom: none;
+}
+.pb-bottom {
+  width: 48px; height: 24px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 0 0 24px 24px;
+  border: 3px solid rgba(0,0,0,0.3);
+  border-top: none;
+}
+.pb-medio {
+  position: absolute; top: 50%; left: 0;
+  transform: translateY(-50%);
+  width: 100%; height: 6px;
+  background: rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.pb-boton {
+  width: 14px; height: 14px;
+  background: white;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.3);
+}
+@keyframes girar-logo {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── FILTROS ── */
+.filtros-wrap {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.buscador-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+}
+
+.icono-buscar {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+}
+
+.buscador {
+  width: 100%;
+  padding: 12px 16px 12px 40px;
+  border-radius: 30px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  outline: none;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+.buscador::placeholder { color: rgba(255,255,255,0.6); }
+.buscador:focus { background: rgba(255,255,255,0.25); }
+
+.filtros-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.filtro-select {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  backdrop-filter: blur(4px);
+}
+.filtro-select option { background: #c0392b; color: white; }
+
+.btn-limpiar {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: transparent;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-limpiar:hover { background: rgba(255,255,255,0.2); }
+
+.resultado-count {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 1px;
+}
+
+/* ── GRID ── */
+.lista-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 30px 24px;
+  background: #1a1a2e;
+  min-height: 100vh;
+}
+
+/* ── CARTA ── */
+.card-pokemon {
+  position: relative;
+  border-radius: 20px;
+  text-decoration: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 14px;
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--color-tipo) 60%, white),
+    color-mix(in srgb, var(--color-tipo) 90%, black));
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.card-pokemon:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+.card-fondo {
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  pointer-events: none;
+}
+
+.card-numero {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.6);
+  align-self: flex-start;
+  letter-spacing: 1px;
+}
+
+.card-imagen-wrap {
+  width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
+  transition: transform 0.3s ease;
+}
+
+.card-pokemon:hover .card-imagen-wrap {
+  transform: translateY(-6px) scale(1.08);
+}
+
+.card-imagen {
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  gap: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.card-nombre {
+  font-family: 'Titan One', cursive;
+  font-size: 0.85rem;
+  color: white;
+  text-transform: capitalize;
+  padding: 4px 18px;
+  border-radius: 50px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+.cargando-tipo { opacity: 0.5; }
+
+.cargando {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.no-resultados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 80px;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+}
+
+/* ── CONTENEDOR PRINCIPAL DEL HISTORIAL ── */
+.historial-container-pro {
+  margin: 20px 0;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 4px solid var(--color-tipo, #78C850);
+  border-radius: 0 16px 16px 0;
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+/* ── HEADER (TÍTULO Y BOTÓN) ── */
+.historial-header-pro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.historial-titulo {
+  font-family: 'Titan One', cursive; /* Reutiliza la fuente de tus títulos */
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Puntito estético que parpadea junto al título */
+.dot-parpadeo {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-tipo, #78C850);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-tipo, #78C850);
+  animation: pulsoGlow 2s infinite;
+}
+
+@keyframes pulsoGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ── BOTÓN BORRAR PRO ── */
+.btn-borrar-pro {
+  background: linear-gradient(135deg, rgba(255, 74, 74, 0.1), rgba(255, 74, 74, 0.2));
+  border: 1px solid rgba(255, 74, 74, 0.4);
+  color: #ff7878;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-borrar-pro:hover {
+  background: #ff4a4a;
+  color: white;
+  border-color: #ff4a4a;
+  box-shadow: 0 0 12px rgba(255, 74, 74, 0.4);
+  transform: translateY(-1px);
+}
+
+.icono-X {
+  font-size: 0.7rem;
+}
+
+/* ── CONTENEDOR DE LAS BURBUJAS/TAGS ── */
+.historial-tags-pro {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ── BURBUJAS INDIVIDUALES (BOTONES) ── */
+.historial-tag-pro {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tag-lupa {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  transition: transform 0.2s;
+}
+
+.tag-texto {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+  letter-spacing: 0.3px;
+}
+
+/* Efecto hover interactivo en las burbujas */
+.historial-tag-pro:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--color-tipo, #78C850);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 
+              0 0 8px color-mix(in srgb, var(--color-tipo, #78C850) 40%, transparent);
+  transform: translateY(-2px);
+}
+
+.historial-tag-pro:hover .tag-lupa {
+  opacity: 1;
+  transform: scale(1.1) rotate(10deg);
+}
+
+.historial-tag-pro:active {
+  transform: translateY(0);
+}
