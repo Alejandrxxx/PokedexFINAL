@@ -1,0 +1,2 @@
+# PokedexFINAL
+Alejandro Loredo Rojas 
